@@ -60,7 +60,8 @@ class DiscordServerEvent(commands.Cog):
         member = interaction.author
         git_btn = interaction.component.custom_id
         lenght = len(gift_list)
-        gift = random.randint(0, lenght - 1)
+        gift_random = random.randint(0, lenght - 1)
+        gift = gift_list[gift_random]
         if git_btn == 'get_free_gift':
             await interaction.respond(content=gift)
 
