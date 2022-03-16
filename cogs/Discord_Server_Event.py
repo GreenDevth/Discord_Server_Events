@@ -1,3 +1,5 @@
+import random
+
 import discord
 from discord.ext import commands
 from discord_components import Button, ButtonStyle
@@ -52,6 +54,15 @@ gift_list = [
 class DiscordServerEvent(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+
+    @commands.Cog.listener()
+    async def on_button_click(self, interaction):
+        member = interaction.author
+        git_btn = interaction.component.custom_id
+        lenght = len(gift_list)
+        gift = random.randint(0, lenght - 1)
+        if git_btn == 'get_free_gift':
+            await interaction.respond(content=gift)
 
     @commands.command(name='free_gift')
     async def free_gift_commands(self, ctx):
