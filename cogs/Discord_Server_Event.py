@@ -80,13 +80,28 @@ class DiscordServerEvent(commands.Cog):
         message = None
         if git_btn == 'get_free_gift':
             if player_info(member.id)[13] == 1:
+                show_channel = self.bot.get_channel(914043582564954114)
                 coins = player_info(member.id)[5]
                 tatol = coins + gift
                 coins_update = update_coins(member.id, tatol)
-                message = 'โปรดรอสักครู่ คุณจะได้รับข้อความแจ้งเตือนผลการสุ่มรางวัลจากระบบ {}'.format(coins_update)
+                message = 'โปรดรอสักครู่ คุณจะได้รับข้อความแจ้งเตือนผลการสุ่มรางวัลจากระบบ'
+                embed = discord.Embed(
+                    title='ขอแสดงความยินดีกับ {}'.format(member.name),
+                    color=discord.Colour.green()
+                )
+                embed.set_author(name=member.name, icon_url=member.avatar_url)
+                embed.set_thumbnail(url=member.avatar_url)
+                embed.add_field(name='ผลการจับรางวัล', value="${:,d}".format(gift))
                 await interaction.respond(content=message)
+                await discord.DMChannel.send(
+                    member, 'ยินดีด้วยคุณได้รับ ${:,d} ยอดเงินของคุณคือ ${:,d}'.format(gift, coins_update))
+                await show_channel.send(embed=embed)
+                update_gift(member.id)
+                return
             else:
                 await interaction.respond(content='สิทธิ์ในการรับของขวัญของคุณหมดแล้ว')
+                return
+        return
 
     @commands.command(name='free_gift')
     async def free_gift_commands(self, ctx):
