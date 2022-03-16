@@ -64,7 +64,10 @@ class DiscordServerEvent(commands.Cog):
         gift = gift_list[gift_random]
         message = None
         if git_btn == 'get_free_gift':
-            message = 'ยินดีด้วยคุณได้รับ SCUM Money จำนวน ${:,d}'.format(gift)
+            coins = player_info(member.id)[5]
+            tatol = coins + gift
+            coins_update = update_coins(member.id, tatol)
+            message = 'โปรดรอสักครู่ คุณจะได้รับข้อความแจ้งเตือนผลการสุ่มรางวัลจากระบบ {}'.format(coins_update)
             await interaction.respond(content=message)
 
     @commands.command(name='free_gift')
