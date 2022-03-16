@@ -83,6 +83,8 @@ class ScumPlayers(commands.Cog):
             msg = f'📃**แสดงรายชื่อผู้เข้าร่วมกิจกรรม**\n```{x}\n\n===========' \
                   f'================\nจำนวน ผู้ลงทะเบียนทั้งหมด : {y} คน```'
             await interaction.respond(content=msg)
+            return
+        return
 
     @commands.command(name='show_players')
     async def show_player(self, ctx):
