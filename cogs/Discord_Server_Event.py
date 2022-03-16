@@ -43,6 +43,21 @@ def update_coins(discord_id, coins):
             conn.close()
 
 
+def update_gift(discord_id):
+    conn = None
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute('UPDATE scum_players SET GIFT = 0 WHERE DISCORD_ID=%s', (discord_id,))
+        conn.commit()
+        cur.close()
+    except Error as e:
+        print(e)
+    finally:
+        if conn.is_connected():
+            conn.close()
+
+
 gift_list = [
     10, 20000, 30000, 40000, 50000, 6000, 7000, 800, 900, 100, 10010, 10020, 10030, 14000, 15000, 1600, 17000, 1800,
     190, 200,
@@ -64,11 +79,14 @@ class DiscordServerEvent(commands.Cog):
         gift = gift_list[gift_random]
         message = None
         if git_btn == 'get_free_gift':
-            coins = player_info(member.id)[5]
-            tatol = coins + gift
-            coins_update = update_coins(member.id, tatol)
-            message = 'โปรดรอสักครู่ คุณจะได้รับข้อความแจ้งเตือนผลการสุ่มรางวัลจากระบบ {}'.format(coins_update)
-            await interaction.respond(content=message)
+            if player_info(member.id)[13] == 1:
+                coins = player_info(member.id)[5]
+                tatol = coins + gift
+                coins_update = update_coins(member.id, tatol)
+                message = 'โปรดรอสักครู่ คุณจะได้รับข้อความแจ้งเตือนผลการสุ่มรางวัลจากระบบ {}'.format(coins_update)
+                await interaction.respond(content=message)
+            else:
+                await interaction.respond(content='สิทธิ์ในการรับของขวัญของคุณหมดแล้ว')
 
     @commands.command(name='free_gift')
     async def free_gift_commands(self, ctx):
