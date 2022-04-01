@@ -7,6 +7,7 @@ from discord_components import Button, ButtonStyle
 from mysql.connector import MySQLConnection, Error
 from database.db_config import read_db_config
 
+from event.parachutes import ParachutesEvent
 db = read_db_config()
 
 
@@ -116,3 +117,4 @@ class DiscordServerEvent(commands.Cog):
 
 def setup(bot):
     bot.add_cog(DiscordServerEvent(bot))
+    bot.add_cog(ParachutesEvent(bot))

@@ -1,12 +1,11 @@
 import discord
 from discord.ext import commands
-from database.Players import exp_update, players_info
+
 from database.Bank_db import plus_coins, minus_coins
-from database.WWII_db import show_players, count_color_team, all_count
-from discord_components import Button, ButtonStyle
+from database.Players import exp_update, players_info
 
 
-class ScumPlayers(commands.Cog):
+class ManageAccounting(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -67,48 +66,6 @@ class ScumPlayers(commands.Cog):
         if isinstance(error, commands.MissingPermissions):
             await ctx.reply('Your Role are can not used this commands.')
 
-    @commands.Cog.listener()
-    async def on_button_click(self, interaction):
-        btn = interaction.component.custom_id
-        check_list = ["red_check", "blue_check"]
-        if btn in check_list:
-            x = show_players(btn)
-            y = count_color_team(btn)
-            msg = f'📃**แสดงรายชื่อผู้เข้าร่วมกิจกรรม**\n```{x}\n\n===========' \
-                  f'================\nจำนวนสมาชิกทีม RED : {y} คน```'
-            await interaction.respond(content=msg)
-        elif btn == 'all_check':
-            x = show_players(btn)
-            y = all_count()
-            msg = f'📃**แสดงรายชื่อผู้เข้าร่วมกิจกรรม**\n```{x}\n\n===========' \
-                  f'================\nจำนวน ผู้ลงทะเบียนทั้งหมด : {y} คน```'
-            await interaction.respond(content=msg)
-            return
-        return
-
-    @commands.command(name='show_players')
-    async def show_player(self, ctx):
-
-        await ctx.send(
-            file=discord.File('./img/the_battle.png'),
-            components=[
-                [
-                    Button(style=ButtonStyle.red, label='RED CHECK', emoji='⚔', custom_id='red_check'),
-                    Button(style=ButtonStyle.blue, label='BLUE CHECK', emoji='⚔', custom_id='blue_check'),
-                    Button(style=ButtonStyle.gray, label='ALL TEAM', emoji='⚔', custom_id='all_check')
-                ]
-            ]
-        )
-        await ctx.message.delete()
-
-    @commands.command(name='show_all')
-    async def show_all(self, ctx):
-        x = show_players("all_check")
-        y = all_count()
-        msg = f'📃**แสดงรายชื่อผู้เข้าร่วมกิจกรรม**\n```{x}\n\n===========' \
-              f'================\nจำนวน ผู้ลงทะเบียนทั้งหมด : {y} คน```'
-        await ctx.send(content=msg)
-
 
 def setup(bot):
-    bot.add_cog(ScumPlayers(bot))
+    bot.add_cog(ManageAccounting(bot))
