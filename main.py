@@ -5,7 +5,7 @@ from config.config import config_cogs, get_token
 bot = commands.Bot(command_prefix='/')
 DiscordComponents(bot)
 
-token = get_token(13)  # old 11 new 13
+token = get_token(11)  # old 11 new 13
 
 
 @bot.event
