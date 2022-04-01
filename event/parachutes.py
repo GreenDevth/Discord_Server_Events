@@ -145,6 +145,8 @@ class ParachutesEvent(commands.Cog):
                 run_cmd_channel = self.bot.get_channel(927796274676260944)
                 teleport = f'.set #teleport 344852.344 -524494.250 275480.813 {player[3]}'
                 await run_cmd_channel.send(teleport)
+            else:
+                await interaction.respond(content="คุณไม่ได้รับสิทธิ์ในการใช้งานคำสั่งนี้")
 
     @commands.command(name='parachutes')
     async def parachute_command(self, ctx):
