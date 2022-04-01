@@ -156,9 +156,9 @@ class ParachutesEvent(commands.Cog):
             components=[
                 [
                     Button(style=ButtonStyle.green, label='REGISTER', emoji='📝', custom_id='parachute_event_register'),
-                    Button(style=ButtonStyle.blue, label=f'PLAYER : {count}',
+                    Button(style=ButtonStyle.blue, label=f'PLAYERS : {count}',
                            emoji='📝', custom_id='parachute_event_count'),
-                    Button(style=ButtonStyle.gray, label='EVENT DETIAL', emoji='📝', custom_id='parachute_event_detail')
+                    Button(style=ButtonStyle.gray, label='EVENT DETAIL', emoji='📝', custom_id='parachute_event_detail')
                 ]
             ]
         )
