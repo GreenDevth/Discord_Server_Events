@@ -91,3 +91,15 @@ def exp_update(discord_id, exp):
         exp = players_info(discord_id)
         msg = exp[7]
     return msg
+
+
+def get_lates_player():
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute("select * from scum_players order by PLAYERS_ID DESC limit 1")
+        row = cur.fetchall()
+        for x in row:
+            return x
+    except Error as e:
+        print(e)

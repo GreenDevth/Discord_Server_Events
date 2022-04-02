@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 
 from database.Bank_db import plus_coins, minus_coins
-from database.Players import exp_update, players_info
+from database.Players import exp_update, players_info, get_lates_player
 
 
 class ManageAccounting(commands.Cog):
@@ -65,6 +65,33 @@ class ManageAccounting(commands.Cog):
             await ctx.reply('Your commands mission argument, Please verify again.', mention_author=False)
         if isinstance(error, commands.MissingPermissions):
             await ctx.reply('Your Role are can not used this commands.')
+
+    @commands.command(name="last_player")
+    async def last_player_command(self, ctx):
+        player = get_lates_player()
+
+        def get_ign():
+            if player[12] is None:
+                msg = "ยังไม่ได้ระบุชื่อตัวละคร"
+                return msg.strip()
+            else:
+                return player[12]
+
+        await ctx.reply(
+            "```css\n"
+            f"PLAYERS_ID : {player[0]}\n"
+            f"DISCORD_NAME : '{player[1]}'\n"
+            f"IGN : '{get_ign()}'\n"
+            f"DISCORD_ID : {player[2]}\n"
+            f"STEAM_ID : {player[3]}\n"
+            f"GUILD_ID : {player[4]}\n"
+            f"COINS : {player[5]}\n"
+            f"LEVEL : {player[6]}\n"
+            f"EXP : {player[7]}\n"
+            f"STATUS : '{player[9]}'\n"
+            "\n```",
+            mention_author=False
+        )
 
 
 def setup(bot):
