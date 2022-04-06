@@ -72,7 +72,7 @@ class HelpMePlease(commands.Cog):
         member = interaction.author
         event_btn = interaction.component.custom_id
         btn_list = ["event_register", "event_home", "start_event", "quantity", "event_details"]
-        run = interaction.guild.get_channel(958689325837586502)
+        run = interaction.guild.get_channel(927796274676260944)
         if event_btn in btn_list:
             btn = event_btn
             if btn == "event_register":
@@ -103,7 +103,7 @@ class HelpMePlease(commands.Cog):
                     if players_event_info(member.id)[4] == 1:
                         teleport = "2378.3066 -235506.977 0"
                         await interaction.respond(content=f"คุณ {players_info(member.id)[1]} ระบบกำลังนำคุณไปยัง Event")
-                        msg = await run.send(f"#Teleport {teleport} {players_info(member.id)[3]}")
+                        msg = await run.send(f".set #Teleport {teleport} {players_info(member.id)[3]}")
                         await asyncio.sleep(2)
                         await msg.delete()
                     elif players_event_info(member.id) == 0:
@@ -118,7 +118,7 @@ class HelpMePlease(commands.Cog):
                         teleport = teleport_list[teleport_to]
                         await interaction.respond(content=f"คุณ {players_info(member.id)[1]}"
                                                           f" ระบบกำลังนำคุณไปยังจุดเริ่มต้น")
-                        msg = await run.send(f"#Teleport {teleport} {players_info(member.id)[3]}")
+                        msg = await run.send(f".set #Teleport {teleport} {players_info(member.id)[3]}")
                         await asyncio.sleep(2)
                         await msg.delete()
                     elif players_event_info(member.id) == 0:
