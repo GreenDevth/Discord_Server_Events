@@ -10,6 +10,22 @@ from database.Players import players_info
 db = read_db_config()
 
 
+def status():
+    conn = None
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute("UPDATE server_event SET event_status=1 WHERE event_status=0")
+        conn.commit()
+        cur.close()
+    except Error as e:
+        print(e)
+    finally:
+        if conn.is_connected():
+            conn.close()
+            return None
+
+
 def count_player():
     try:
         conn = MySQLConnection(**db)
@@ -39,10 +55,8 @@ def players_event_info(discord_id):
         cur = conn.cursor()
         cur.execute('select * from server_event where DISCORD_ID = %s', (discord_id,))
         row = cur.fetchall()
-        while row is not None:
-            for x in row:
-                return x
-        return False
+        res = list(row)
+        return res
     except Error as e:
         print(e)
         return None

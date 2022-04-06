@@ -20,4 +20,3 @@ async def clear(ctx):
     await ctx.channel.purge()
 config_cogs(bot)
 bot.run(token)
-
