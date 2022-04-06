@@ -221,7 +221,7 @@ class HelpMePlease(commands.Cog):
         )
         await ctx.message.delete()
 
-    @commands.command(name='final_location')
+    @commands.command(name='final')
     async def final_place(self, ctx):
         run = self.bot.get_channel(927796274676260944)
         member = ctx.author
