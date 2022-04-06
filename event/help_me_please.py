@@ -221,11 +221,11 @@ class HelpMePlease(commands.Cog):
         )
         await ctx.message.delete()
 
-    @commands.command(name='final')
+    @commands.command(name='final_location')
     async def final_place(self, ctx):
         run = self.bot.get_channel(927796274676260944)
         member = ctx.author
         steam = players_event_info(member.id)[3]
         teleport = "#Teleport 175201.875 -199213.156 29079.803"
-        await ctx.reply('ระบบกำลังส่งคุณไปยังจุดเส้นชัย')
+        await ctx.reply('ระบบกำลังส่งคุณไปยังจุดเส้นชัย', mention_author=False)
         await run.send(f'.set {teleport} {steam}')
