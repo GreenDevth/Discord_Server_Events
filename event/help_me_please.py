@@ -97,6 +97,7 @@ class HelpMePlease(commands.Cog):
                                                    delete_after=5)
                 elif check != 0:
                     await interaction.respond(content="คุณได้ลงทะเบียนไว้แล้ว")
+
             if btn == "event_home":
                 check = check_player(member.id)
                 if check == 1:
@@ -125,6 +126,7 @@ class HelpMePlease(commands.Cog):
                         await interaction.respond(content='กิจกรรมยังไม่เริ่มกรุณารอทีมงานแจ้งเตือนอีกครั้ง')
                 elif check == 0:
                     await interaction.respond(content='คุณยังไม่ได้ ลงทะเบียนเข้าร่วมกิจกรรมในครั้งนี้')
+
             if btn == "quantity":
                 player = count_player()
                 await interaction.edit_origin(
@@ -153,6 +155,22 @@ class HelpMePlease(commands.Cog):
                           " รับเพิ่ม **$3000** และค่าประสบการณ์ **3000exp**\n\n" \
                           "กิจกรรม จะเริ่ม ในวันเสาร์ที่ 9 ตั้งแต่เวลา 21:00 หรือเมื่อผู้เล่นพร้อม"
                 await interaction.respond(content=message)
+
+            if btn == "event_test_home":
+                teleport = "2378.3066 -235506.977 0"
+                await interaction.respond(content=f"คุณ {players_info(member.id)[1]} ระบบกำลังนำคุณไปยัง Event")
+                msg = await run.send(f".set #Teleport {teleport} {players_info(member.id)[3]}")
+                await asyncio.sleep(2)
+                await msg.delete()
+
+            if btn == "start_test_event":
+                teleport_to = random.randint(0, list_lenght - 1)
+                teleport = teleport_list[teleport_to]
+                await interaction.respond(content=f"คุณ {players_info(member.id)[1]}"
+                                                  f" ระบบกำลังนำคุณไปยังจุดเริ่มต้น")
+                msg = await run.send(f".set #Teleport {teleport} {players_info(member.id)[3]}")
+                await asyncio.sleep(2)
+                await msg.delete()
 
     @commands.command(name='register_event')
     async def register_event(self, ctx):
@@ -186,4 +204,18 @@ class HelpMePlease(commands.Cog):
     async def start_event(self, ctx):
         status()
         await ctx.reply('Start Event', mention_author=False)
+        await ctx.message.delete()
+
+    @commands.command(name='test_event')
+    async def test_event(self, ctx):
+        await ctx.send(
+            file=discord.File('./img/event/event_start.png'),
+            components=[
+                [
+                    Button(style=ButtonStyle.green, label='GOTO EVENT LOCATION', emoji='🏠',
+                           custom_id='event_test_home'),
+                    Button(style=ButtonStyle.blue, label='TELEPORT NOW', emoji='🎉', custom_id='start_test_event')
+                ]
+            ]
+        )
         await ctx.message.delete()
