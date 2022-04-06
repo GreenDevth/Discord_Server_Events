@@ -71,7 +71,8 @@ class HelpMePlease(commands.Cog):
     async def on_button_click(self, interaction):
         member = interaction.author
         event_btn = interaction.component.custom_id
-        btn_list = ["event_register", "event_home", "start_event", "quantity", "event_details","event_test_home","start_test_event"]
+        btn_list = ["event_register", "event_home", "start_event", "quantity", "event_details", "event_test_home",
+                    "start_test_event"]
         run = interaction.guild.get_channel(927796274676260944)
         if event_btn in btn_list:
             btn = event_btn
@@ -219,3 +220,12 @@ class HelpMePlease(commands.Cog):
             ]
         )
         await ctx.message.delete()
+
+    @commands.command(name='final')
+    async def final_place(self, ctx):
+        run = self.bot.get_channel(927796274676260944)
+        member = ctx.author
+        steam = players_event_info(member.id)[3]
+        teleport = "#Teleport 175201.875 -199213.156 29079.803"
+        await ctx.reply('ระบบกำลังส่งคุณไปยังจุดเส้นชัย')
+        await run.send(f'.set {teleport} {steam}')
