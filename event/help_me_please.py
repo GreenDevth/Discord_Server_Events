@@ -71,7 +71,7 @@ class HelpMePlease(commands.Cog):
     async def on_button_click(self, interaction):
         member = interaction.author
         event_btn = interaction.component.custom_id
-        btn_list = ["event_register", "event_home", "start_event", "quantity", "event_details"]
+        btn_list = ["event_register", "event_home", "start_event", "quantity", "event_details","event_test_home","start_test_event"]
         run = interaction.guild.get_channel(927796274676260944)
         if event_btn in btn_list:
             btn = event_btn
