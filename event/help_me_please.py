@@ -58,9 +58,50 @@ teleport_list = [
     "220187.7471 -141589.1449 0",
     "200427.2576 -139146.8372 0",
     "192212.2227 -139146.8372 0",
-    "184441.2437 -137814.6694 0"
+    "184441.2437 -137814.6694 0",
+    "75083.4499 -187008.2362 0",
+    "75083.4499 -198849.728 0",
+    "71531.0023 -209901.7871 0",
+    "67189.122 -221743.2789 0",
+    "73504.5843 -230821.756 0",
+    "83372.4942 -241479.0987 0",
+    "98371.7172 -243057.9643 0",
+    "102368.2207 -260425.4856 0",
+    "107252.8361 -270194.7164 0",
+    "170308.7801 -261313.5975 0",
+    "199616.4724 -292841.5695 0",
+    "177413.6752 -285292.6185 0",
+    "228124.864 -283871.6395 0",
+    "235585.0039 -279963.9472 0",
+    "249794.7941 -277832.4786 0",
+    "268622.7661 -247991.9192 0",
+    "273951.4375 -237334.5765 0",
+    "287095.4934 -219572.3388 0",
+    "279990.5983 -147812.8982 0",
+    "257965.4235 -149233.8772 0",
+    "250505.2836 -131826.8842 0",
+    "238782.2067 -128274.4367 0",
+    "207520.6682 -115130.3807 0",
+    "191179.4095 -119038.073 0",
+    "174127.6612 -120103.8073 0",
+    "146418.5703 -131826.8842 0"
 ]
 list_lenght = len(teleport_list)
+
+zombie_location = [
+    "127185.6194 -199126.2641 0",
+    "211073.1158 -207494.0171 0",
+    "179101.0878 -238400.3108 0",
+    "137892.6962 -232005.9052 0",
+    "121906.6822 -202875.8353 0",
+    "145352.8361 -184047.8632 0",
+    "168088.5004 -165575.136 0",
+    "191179.4095 -168061.8493 0",
+    "178035.3535 -256162.5486 0",
+    "131143.0458 -258649.2618 0",
+    "139668.92 -238045.066 0"
+]
+zombie_lenght = len(zombie_location)
 
 
 class HelpMePlease(commands.Cog):
@@ -179,6 +220,11 @@ class HelpMePlease(commands.Cog):
                 msg = await run.send(f".set #Teleport {teleport} {players_info(member.id)[3]}")
                 await asyncio.sleep(2)
                 await msg.delete()
+            if btn == "event_option":
+                await interaction.respond(content='ระบบกำลังส่งซอมบี้ไปประจำพื้นที่')
+                for x in zombie_location:
+                    await run.send(f'.set #SpawnRandomZombie 10 {x}')
+                await interaction.channel.send('Send zomebie to event area successfull.')
 
     @commands.command(name='register_event')
     async def register_event(self, ctx):
@@ -236,3 +282,10 @@ class HelpMePlease(commands.Cog):
         teleport = "#Teleport 175201.875 -199213.156 29079.803"
         await ctx.reply('ระบบกำลังส่งคุณไปยังจุดเส้นชัย', mention_author=False)
         await run.send(f'.set {teleport} {steam}')
+
+    @commands.command(name='event_option')
+    async def send_event_option(self, ctx):
+        await ctx.send(
+            'Send Option',
+            components=[Button(style=ButtonStyle.red, label='SEND EVENT OPTION', emoji='🧟', custom_id='event_option')]
+        )

@@ -141,7 +141,7 @@ class ManageAccounting(commands.Cog):
     async def on_button_click(self, interaction):
         member = interaction.author
         btn = interaction.component.custom_id
-        btn_list = ["to_all_1000","to_all_1000_online"]
+        btn_list = ["to_all_1000", "to_all_1000_online"]
         run = self.bot.get_channel(927796274676260944)
         commandall = "#SetFamePointsToAll"
         commandallonline = "#SetFamePointsToAllOnline"
