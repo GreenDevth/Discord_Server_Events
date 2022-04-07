@@ -227,7 +227,7 @@ class HelpMePlease(commands.Cog):
                     time.sleep(5)
                     await run.send(f'.set #Teleport {x}')
                     time.sleep(5)
-                    await run.send(f'.set #SpawnRandomZombie 10 Location {x}')
+                    await run.send(f'.set #SpawnRandomZombie 10')
                     time.sleep(5)
                 await interaction.channel.send('Send zomebie to event area successfull.', delete_after=5)
 
