@@ -225,6 +225,8 @@ class HelpMePlease(commands.Cog):
                 await interaction.respond(content='ระบบกำลังส่งซอมบี้ไปประจำพื้นที่')
                 for x in zombie_location:
                     time.sleep(5)
+                    await run.send(f'.set #Teleport {x}')
+                    time.sleep(5)
                     await run.send(f'.set #SpawnRandomZombie 10 Location {x}')
                     time.sleep(5)
                 await interaction.channel.send('Send zomebie to event area successfull.', delete_after=5)
