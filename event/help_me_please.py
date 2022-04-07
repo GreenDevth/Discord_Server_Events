@@ -113,7 +113,7 @@ class HelpMePlease(commands.Cog):
         member = interaction.author
         event_btn = interaction.component.custom_id
         btn_list = ["event_register", "event_home", "start_event", "quantity", "event_details", "event_test_home",
-                    "start_test_event"]
+                    "start_test_event","event_option"]
         run = interaction.guild.get_channel(927796274676260944)
         location_command = self.bot.get_channel(961454973332377681)
         if event_btn in btn_list:
