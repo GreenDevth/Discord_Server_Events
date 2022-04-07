@@ -90,17 +90,17 @@ teleport_list = [
 list_lenght = len(teleport_list)
 
 zombie_location = [
-    "127185.6194 -199126.2641 0",
-    "211073.1158 -207494.0171 0",
-    "179101.0878 -238400.3108 0",
-    "137892.6962 -232005.9052 0",
-    "121906.6822 -202875.8353 0",
-    "145352.8361 -184047.8632 0",
-    "168088.5004 -165575.136 0",
-    "191179.4095 -168061.8493 0",
-    "178035.3535 -256162.5486 0",
-    "131143.0458 -258649.2618 0",
-    "139668.92 -238045.066 0"
+    "127185.6194 -199126.2641 79",
+    "211073.1158 -207494.0171 79",
+    "179101.0878 -238400.3108 79",
+    "137892.6962 -232005.9052 79",
+    "121906.6822 -202875.8353 79",
+    "145352.8361 -184047.8632 79",
+    "168088.5004 -165575.136 79",
+    "191179.4095 -168061.8493 79",
+    "178035.3535 -256162.5486 79",
+    "131143.0458 -258649.2618 79",
+    "139668.92 -238045.066 79"
 ]
 zombie_lenght = len(zombie_location)
 
@@ -226,8 +226,14 @@ class HelpMePlease(commands.Cog):
                 for x in zombie_location:
                     await asyncio.sleep(1)
                     await run.send(f'.set #Teleport {x}')
-                    time.sleep(10)
-                    await run.send(f'.set #SpawnRandomZombie 10')
+                    print(f'#Teleport {x}')
+                    await asyncio.sleep(15)
+                    await run.send(f'.set #spawnzombie BP_Zombie_Civilian_Skinny_Female 3')
+                    await asyncio.sleep(3)
+                    await run.send(f'.set #spawnzombie P_Zombie_Civilian_Normal_Male 3')
+                    await asyncio.sleep(3)
+                    await run.send(f'.set #spawnzombie BP_Zombie_Civilian_Muscular_Male 3')
+                    await asyncio.sleep(3)
 
                 await interaction.channel.send('Send zomebie to event area successfull.', delete_after=5)
 
