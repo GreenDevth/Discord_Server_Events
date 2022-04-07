@@ -1,5 +1,6 @@
 import asyncio
 import random
+import time
 
 import discord
 from discord.ext import commands
@@ -223,8 +224,10 @@ class HelpMePlease(commands.Cog):
             if btn == "event_option":
                 await interaction.respond(content='ระบบกำลังส่งซอมบี้ไปประจำพื้นที่')
                 for x in zombie_location:
+                    time.sleep(1)
                     await run.send(f'.set #SpawnRandomZombie 10 {x}')
-                await interaction.channel.send('Send zomebie to event area successfull.')
+                    time.sleep(2)
+                await interaction.channel.send('Send zomebie to event area successfull.', delete_after=5)
 
     @commands.command(name='register_event')
     async def register_event(self, ctx):
