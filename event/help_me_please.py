@@ -74,6 +74,7 @@ class HelpMePlease(commands.Cog):
         btn_list = ["event_register", "event_home", "start_event", "quantity", "event_details", "event_test_home",
                     "start_test_event"]
         run = interaction.guild.get_channel(927796274676260944)
+        location_command = self.bot.get_channel(961454973332377681)
         if event_btn in btn_list:
             btn = event_btn
             if btn == "event_register":
@@ -105,9 +106,12 @@ class HelpMePlease(commands.Cog):
                     if players_event_info(member.id)[4] == 1:
                         teleport = "2378.3066 -235506.977 0"
                         await interaction.respond(content=f"คุณ {players_info(member.id)[1]} ระบบกำลังนำคุณไปยัง Event")
+                        get_location = await run.send(f'.location #Location {players_info(member.id)[3]} true')
+                        await asyncio.sleep(3)
                         msg = await run.send(f".set #Teleport {teleport} {players_info(member.id)[3]}")
                         await asyncio.sleep(2)
                         await msg.delete()
+                        await get_location.delete()
                     elif players_event_info(member.id) == 0:
                         await interaction.respond(content='กิจกรรมยังไม่เริ่มกรุณารอทีมงานแจ้งเตือนอีกครั้ง')
                 elif check == 0:
@@ -160,9 +164,12 @@ class HelpMePlease(commands.Cog):
             if btn == "event_test_home":
                 teleport = "2378.3066 -235506.977 0"
                 await interaction.respond(content=f"คุณ {players_info(member.id)[1]} ระบบกำลังนำคุณไปยัง Event")
+                await asyncio.sleep(3)
+                get_location = await run.send(f'.location #Location {players_info(member.id)[3]} true')
                 msg = await run.send(f".set #Teleport {teleport} {players_info(member.id)[3]}")
                 await asyncio.sleep(2)
                 await msg.delete()
+                await get_location.delete()
 
             if btn == "start_test_event":
                 teleport_to = random.randint(0, list_lenght - 1)

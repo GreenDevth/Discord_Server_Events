@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord_components import Button, ButtonStyle
 
 from database.Bank_db import plus_coins, minus_coins
 from database.Players import exp_update, players_info, get_lates_player
@@ -92,6 +93,65 @@ class ManageAccounting(commands.Cog):
             "\n```",
             mention_author=False
         )
+
+    @commands.command(name='famepoint')
+    @commands.has_permissions(manage_roles=True)
+    async def set_famepoint(self, ctx, member: discord.Member, amount: int):
+        run = self.bot.get_channel(927796274676260944)
+        command = "#setfamepoints"
+        await ctx.reply(f'set {amount} famepont to {players_info(member.id)} successfull.')
+        await run.send(f'.run {command} {amount} {players_info(member.id)[3]}')
+
+    @set_famepoint.error
+    async def set_famepoint_command(self, ctx, error):
+        if isinstance(error, commands.MissingPermissions):
+            await ctx.reply('คุณไม่สามารถใช้งานคำสั่งนี้ได้')
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.reply('Missing a required argument : {}'.format(error.param))
+
+    @commands.command(name="set_fame")
+    @commands.has_permissions(manage_roles=True)
+    async def set_fame(self, ctx, amount: int, steam: int):
+        run = self.bot.get_channel(927796274676260944)
+        command = "#setfamepoints"
+        await ctx.reply(f'set {amount} famepoints to {steam} successfully..')
+        await run.send(f'.run {command} {amount} {steam}')
+
+    @set_fame.error
+    async def set_fame_command(self, ctx, error):
+        if isinstance(error, commands.MissingPermissions):
+            await ctx.reply('คุณไม่สามารถใช้งานคำสั่งนี้ได้')
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.reply('Missing a required argument : {}'.format(error.param))
+
+    @commands.command(name='setfamepoint_btn')
+    async def set_fame_button(self, ctx):
+        await ctx.send(
+            file=discord.File('./img/event/tractor.jpg'),
+            components=[
+                [
+                    Button(style=ButtonStyle.red, label="1000 to all", emoji='📡', custom_id='to_all_1000'),
+                    Button(style=ButtonStyle.green, label="1000 to all online", emoji='📡',
+                           custom_id='to_all_1000_online')
+                ]
+            ]
+        )
+
+    @commands.Cog.listener()
+    async def on_button_click(self, interaction):
+        member = interaction.author
+        btn = interaction.component.custom_id
+        btn_list = ["to_all_1000","to_all_1000_online"]
+        run = self.bot.get_channel(927796274676260944)
+        commandall = "#SetFamePointsToAll"
+        commandallonline = "#SetFamePointsToAllOnline"
+        if btn in btn_list:
+            if btn == "to_all_1000_online":
+                await interaction.respond(content='Set 1000 Fampoint to all online player successfull')
+                await run.send(f'.run {commandallonline} 1000')
+            if btn == "to_all_1000":
+                await interaction.respond(content='Set 1000 Fampoint to all player successfull')
+                await run.send(f'.run {commandall} 1000')
 
 
 def setup(bot):
