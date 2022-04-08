@@ -9,6 +9,7 @@ from database.db_config import read_db_config
 
 from event.parachutes import ParachutesEvent
 from event.help_me_please import HelpMePlease
+from event.photo_hunter import PhotoHunterEvent
 db = read_db_config()
 
 
@@ -118,5 +119,6 @@ class DiscordServerEvent(commands.Cog):
 
 def setup(bot):
     # bot.add_cog(DiscordServerEvent(bot))
-    bot.add_cog(ParachutesEvent(bot))
+    # bot.add_cog(ParachutesEvent(bot))
     bot.add_cog(HelpMePlease(bot))
+    bot.add_cog(PhotoHunterEvent(bot))

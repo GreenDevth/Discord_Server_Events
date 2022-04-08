@@ -153,6 +153,10 @@ class ManageAccounting(commands.Cog):
                 await interaction.respond(content='Set 1000 Fampoint to all player successfull')
                 await run.send(f'.run {commandall} 1000')
 
+    @commands.command(name='verify')
+    async def verify_player(self, ctx, member: discord.Member):
+        await ctx.reply(players_info(member.id), mention_author=False)
+
 
 def setup(bot):
     bot.add_cog(ManageAccounting(bot))
