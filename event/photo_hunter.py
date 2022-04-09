@@ -18,7 +18,7 @@ class PhotoHunterEvent(commands.Cog):
         btn_list = photo_hunter_code()
         check = players(member.id)
         winner_channel = interaction.guild.get_channel(914043582564954114)
-        event_log = interaction.guild.get_channel(962272375179739148)  # in dev channel use 962272375179739148;
+        event_log = interaction.guild.get_channel(962278938372096081)  # in dev channel use 962272375179739148;
         if check != 1:
             await interaction.respond(content="ไม่พบข้อมูลของคุณในระบบ")
         else:
