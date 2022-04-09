@@ -4,7 +4,7 @@ import discord
 from discord.ext import commands
 from discord_components import Button, ButtonStyle
 from database.Event_db import *
-from database.Bank_db import plus_coins
+from database.Bank_db import plus_coins, minus_coins
 
 
 class PhotoHunterEvent(commands.Cog):
@@ -18,6 +18,7 @@ class PhotoHunterEvent(commands.Cog):
         btn_list = photo_hunter_code()
         check = players(member.id)
         winner_channel = interaction.guild.get_channel(914043582564954114)
+        event_log = interaction.guild.get_channel(962272375179739148)  # in dev channel use 962272375179739148;
         if check != 1:
             await interaction.respond(content="ไม่พบข้อมูลของคุณในระบบ")
         else:
@@ -96,7 +97,66 @@ class PhotoHunterEvent(commands.Cog):
                         await interaction.channel.send(f'{member.mention} : คุณตอบคำถามช้าเกินไป กรุณาลองใหม่อีกครั้ง',
                                                        delete_after=10)
             if btn == "hunter_reset":
-                await interaction.respond(content=f'{member.mention} : ระบบรีเซ็ตยังไม่เปิดให้ใช้งานในขณะนี้')
+                player_coins = "${:,d}".format(player_info(member.id)[5])
+                fine = player_info(member.id)[5] // 100
+                coin = "${:,d}".format(fine)
+                total = "${:,d}".format(player_info(member.id)[5] - fine)
+                if fine == 0:
+                    await interaction.respond(
+                        content="คุณมียอดเงินไม่เพียงพอสำหรับใช้ในการปรับสิทธิ์การใช้งานในครั้งนี้"
+                    )
+                elif fine != 0:
+                    embed = discord.Embed(
+                        title=f"ใบเสนอราคาค่าบริการปรับสิทธิ์ : {player_info(member.id)[1]}",
+                        color=discord.Colour.red()
+                    )
+                    embed.set_thumbnail(url=member.avatar_url)
+                    embed.set_author(name=member.display_name, icon_url=member.avatar_url)
+                    embed.add_field(name="ค่าปรับ", value=f"```cs\n{coin}\n```", inline=False)
+                    embed.add_field(name="คุณยังมีสิทธิ์ใช้งานคงเหลือ",
+                                    value=f"```cs\n{player_info(member.id)[17]}\n```", inline=False)
+                    embed.add_field(name="ยอดเงินปัจจุบัน", value=f"```cs\n{player_coins}\n```")
+                    embed.add_field(name="ยอดเงินหลังหักบัญชี", value=f"```cs\n{total}\n```")
+                    await interaction.respond(
+                        embed=embed,
+                        components=[
+                            [
+                                Button(style=ButtonStyle.red, label='YES, I NEED RESET', emoji="💵",
+                                       custom_id="pay_for_reset"),
+                                Button(style=ButtonStyle.green, label="NO, I DON'T NEED RESET", emoji="🚫",
+                                       custom_id="cancle_for_reset")
+                            ]
+                        ]
+                    )
+
+            if btn == "pay_for_reset":
+                check = reset_photo_hunter(member.id)
+                if check != 0:
+                    await interaction.respond(content='ระบบทำการรายปรับสิทธิ์ให้คุณไม่สำเร็จ')
+                    return
+                elif check == 0:
+                    await interaction.respond(content="ระบบได้ทำการปรับสิทธิ์การใช้งานของคุณเรียบร้อยแล้ว")
+                    player_coins = "${:,d}".format(player_info(member.id)[5])
+                    fine = player_info(member.id)[5] // 100
+                    coin = "${:,d}".format(fine)
+                    after = minus_coins(member.id, fine)
+                    after_coins = "${:,d}".format(after)
+                    await event_log.send(
+                        f"**Statement ของ {member.mention}**\n"
+                        f"```cs\n"
+                        f"Title : 'รายการหักค่าปรับสิทธิ์การใช้งาน Event Photo Hunter'\n"
+                        f"Fee Money : {coin}\n"
+                        f"Bank Account : '{player_info(member.id)[1]}'\n"
+                        f"Bank Balance Before : {player_coins}\n"
+                        f"Bank Balance After : {after_coins}\n"
+                        f"Status : 🟢 Successfully"
+                        f"\n```"
+                    )
+            if btn == "cancle_for_reset":
+                await interaction.edit_origin(
+                    content=f'คุณได้ทำการยกเลิกคำสั่งเป็นที่เรียบร้อยแล้วครับ',
+                    components=[]
+                )
 
     @commands.command(name='photo_hunter')
     async def photo_hunter(self, ctx, number):
@@ -135,8 +195,10 @@ class PhotoHunterEvent(commands.Cog):
                     ]
                 ]
             )
+            await ctx.message.delete()
         elif check == 0:
             await ctx.reply(f'ไม่พบ Photo Hunter รหัส {number} ในฐานข้อมูล', mention_author=False)
+            await ctx.message.delete()
 
     @photo_hunter.error
     async def photo_hunter_error(self, ctx, error):

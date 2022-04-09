@@ -111,7 +111,8 @@ def get_coin_and_exp(code):
     try:
         conn = MySQLConnection(**db)
         cur = conn.cursor()
-        cur.execute('SELECT hunter_award, hunter_exp, hunter_answer FROM scum_photo_hunter WHERE hunter_code=%s', (code,))
+        cur.execute('SELECT hunter_award, hunter_exp, hunter_answer FROM scum_photo_hunter WHERE hunter_code=%s',
+                    (code,))
         row = cur.fetchone()
         res = list(row)
         return res
@@ -195,3 +196,20 @@ def exp_update(discord_id, exp):
         exp = player_info(discord_id)
         msg = exp[7]
     return msg
+
+
+def reset_photo_hunter(discord):
+    conn = None
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute("UPDATE scum_players SET PHOTO_HUNTER=5 WHERE DISCORD_ID=%s", (discord,))
+        conn.commit()
+        cur.close()
+    except Error as e:
+        print(e)
+        return 1
+    finally:
+        if conn.is_connected():
+            conn.close()
+            return 0
