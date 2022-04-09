@@ -145,11 +145,11 @@ class HelpMePlease(commands.Cog):
                 check = check_player(member.id)
                 if check == 1:
                     if players_event_info(member.id)[4] == 1:
-                        teleport = "174994.531 -199672.172 29055.898"
+                        # teleport = "174994.531 -199672.172 29055.898"
                         await interaction.respond(content=f"คุณ {players_info(member.id)[1]} ระบบกำลังนำคุณไปยัง Event")
                         get_location = await run.send(f'.location #Location {players_info(member.id)[3]} true')
                         await asyncio.sleep(3)
-                        msg = await run.send(f".set #Teleport {teleport} {players_info(member.id)[3]}")
+                        msg = await run.send(f".set #Teleport 174994.531 -199672.172 29055.898 {players_info(member.id)[3]}")
                         await asyncio.sleep(2)
                         await msg.delete()
                         await get_location.delete()
@@ -203,11 +203,11 @@ class HelpMePlease(commands.Cog):
                 await interaction.respond(content=message)
 
             if btn == "event_test_home":
-                teleport = "174994.531 -199672.172 29055.898"
+                # teleport = "174994.531 -199672.172 29055.898"
                 await interaction.respond(content=f"คุณ {players_info(member.id)[1]} ระบบกำลังนำคุณไปยัง Event")
                 await asyncio.sleep(3)
                 get_location = await run.send(f'.location #Location {players_info(member.id)[3]} true')
-                msg = await run.send(f".set #Teleport {teleport} {players_info(member.id)[3]}")
+                msg = await run.send(f".set #Teleport 174994.531 -199672.172 29055.898 {players_info(member.id)[3]}")
                 await asyncio.sleep(2)
                 await msg.delete()
                 await get_location.delete()
